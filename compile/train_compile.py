@@ -77,11 +77,18 @@ for step in range(args.iterations):
         # Accumulate metrics.
         eval_acc = total_acc / count
         eval_nll = total_nll / count
+
+        text = "iteration: {iter:.2f} of {total:.2f} | training_loss: {tloss:.2f} | validation_loss: {vloss:.2f}"
+        print(text.format(iter=step, total=float(args.iterations), tloss=train_loss, vloss=eval_nll))
+
         if(eval_nll <= curr_valid_loss):
             curr_valid_loss =  eval_nll
             best_valid_loss_same = 0
         else:
             best_valid_loss_same += 1
+    else:
+        text = "iteration: {iter:.2f} of {total:.2f} | training_loss: {loss:.2f}"
+        print(text.format(iter=step, total=float(args.iterations), loss=train_loss))
     if step % args.save_interval == 0:
         torch.save(model.state_dict(), os.path.join(args.save_dir, "model.pth"))
 
