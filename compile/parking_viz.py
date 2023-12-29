@@ -20,15 +20,15 @@ Parking Spots:
 
 """
 
-
+from ast import arg
 from collections import defaultdict, Counter
-import torch
+#import torch
 from time import time 
-from torch.distributions import Categorical
+#from torch.distributions import Categorical
 import gym
 import matplotlib.pyplot as plt
 import numpy as np
-from torch.utils.data import dataset, DataLoader
+#from torch.utils.data import dataset, DataLoader
 import json
 import matplotlib.colors as mcolors
 import random
@@ -36,15 +36,14 @@ import skill_utils
 import pickle
 from arguments import args
 
-
 MIN_SKILL_LENGTH = 2
 ROLLOUTS_DIR = "expert-rollouts/parking_eval_1683450947.pkl"
 
 #set random seeds
-torch.manual_seed(args.random_seed)
+#torch.manual_seed(args.random_seed)
 random.seed(args.random_seed)
 np.random.seed(args.random_seed)
-torch.cuda.manual_seed_all(args.random_seed) 
+#torch.cuda.manual_seed_all(args.random_seed) 
 
 
 def plot_parking_spots():
@@ -60,7 +59,9 @@ def plot_traj(args_dict, states, lengths, fn_timestamp):
     for episode in range(states.shape[0]):
         plt.plot([100*state[0] for state in states[episode][:lengths[episode]]], [100*state[1] for state in states[episode][:lengths[episode]]], color="blue", alpha=0.75)
     plot_parking_spots()
-    plt.savefig("fig/"+args_dict["env_name"]+"/trajectories_"+fn_timestamp, dpi=300)
+    fig_path = "fig/"+args_dict["env_name"]+"/trajectories_"+fn_timestamp
+    plt.savefig(fig_path, dpi=300)
+    print(f"Figure saved at location: {fig_path}")
     plt.close()
 
 #filter by max peak reward as heuristic
@@ -126,8 +127,10 @@ args_dict = {"min_skill_length":MIN_SKILL_LENGTH,
     "sample":True,
     "chosen_skills":[1,8,15], #Make sure latents are always the same :)
     "idx_for_fixed_skills":{1:[0, 1], 8:[0, 1], 15:[0, 1]},
-    "compile_dir":"results/parking-concrete-16d-sdiff1",
+    "compile_dir":"results/parking-concrete-4d-state1",
     "min_skill_length":MIN_SKILL_LENGTH}
+
+plot_skills(args_dict)
 logs_fn = plot_rollouts(args_dict)
 skill_utils.get_eval_seeds(args_dict)
 viz_logs(args_dict, logs_fn, skill_type="compile")
