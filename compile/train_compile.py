@@ -49,7 +49,7 @@ for step in range(args.iterations):
         loss, nll, kl_z, kl_b = utils.get_losses(states, actions, outputs, args)
 
         train_loss += nll.item() # This is just the NLL loss (without regularizers) - #TODO: Log all the terms
-        print("NLL ITEM: ", nll.item())
+
         batch_num += 1
         optimizer.zero_grad()
         loss.backward()
