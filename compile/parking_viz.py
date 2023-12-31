@@ -35,6 +35,7 @@ import random
 import skill_utils
 import pickle
 from arguments import args
+import os
 
 MIN_SKILL_LENGTH = 2
 ROLLOUTS_DIR = "expert-rollouts/parking_eval_1683450947.pkl"
@@ -59,9 +60,9 @@ def plot_traj(args_dict, states, lengths, fn_timestamp):
     for episode in range(states.shape[0]):
         plt.plot([100*state[0] for state in states[episode][:lengths[episode]]], [100*state[1] for state in states[episode][:lengths[episode]]], color="blue", alpha=0.75)
     plot_parking_spots()
-    fig_path = "fig/"+args_dict["env_name"]+"/trajectories_"+fn_timestamp
-    plt.savefig(fig_path, dpi=300)
+    fig_path = os.getcwd() + "/fig/"+args_dict["env_name"]+"/trajectories_"+fn_timestamp
     print(f"Figure saved at location: {fig_path}")
+    plt.savefig(fig_path, dpi=300)
     plt.close()
 
 #filter by max peak reward as heuristic
@@ -84,6 +85,7 @@ def plot_rollouts(args_dict):
 
 
 def plot_skills(args_dict):
+    print("Starting to plot skills")
     fn_timestamp = str(int(time())) 
     latent_skills_dict, states, lengths = skill_utils.get_all_skills(args_dict)
     plot_traj(args_dict, states, lengths, fn_timestamp)
@@ -98,6 +100,7 @@ def plot_skills(args_dict):
         plt.title("Latent: "+str(skill)+", Num Episodes: "+str(len(latent_skills_dict["states"][skill])))
         plt.savefig("fig/"+args_dict["env_name"]+"/latent_"+str(skill)+"_"+str(args_dict["compile_dir"].split("/")[-1])+"_"+fn_timestamp, dpi=300)
         plt.close()
+    print("Finished plotting skills")
     return
 
 def viz_logs(args_dict, logs_fn, skill_type="compile"):

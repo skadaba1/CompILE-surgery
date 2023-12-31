@@ -17,7 +17,7 @@ class DotDict(dict):
         else:
             self[key] = val
 
-def load_model_and_batch(viz_args_dict, batch_num=1000):
+def load_model_and_batch(viz_args_dict, batch_num=1):
     args = DotDict()
     if(viz_args_dict["compile_dir"]):
         args_dict = json.load(open(viz_args_dict["compile_dir"] + "/config.json"))
@@ -64,7 +64,6 @@ def get_latent_info(outputs, lengths, args):
     boundaries_by_latent = defaultdict(list)
     segments_by_latent = defaultdict(list)
     latents_by_segment = defaultdict(list)
-    
     for z_j in range(args.latent_dim):
         for seg_idx, ep_idx in zip(*torch.where(z_idx == z_j)):
             seg_idx = seg_idx.item()
