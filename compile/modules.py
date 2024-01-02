@@ -34,7 +34,6 @@ class CompILE(nn.Module):
         self.temp_b = temp_b
         self.temp_z = temp_z
 
-    
         if self.args.action_type == "continuous":
             if self.args.mode in ['statediff+action', 'state+action']:
                 assert self.hidden_dim % 2 == 0

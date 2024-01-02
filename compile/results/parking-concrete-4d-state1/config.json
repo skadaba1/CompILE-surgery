@@ -7,10 +7,10 @@
     "cont_action_dim": 8,
     "device": "cpu",
     "hidden_dim": 64,
-    "iterations": 5,
+    "iterations": 2000,
     "latent_dim": 4,
     "latent_dist": "concrete",
-    "learning_rate": 0.001,
+    "learning_rate": 0.0001,
     "log_interval": 5,
     "mode": "state+action",
     "num_actions": 5,
@@ -18,11 +18,11 @@
     "prior_rate": 50,
     "random_seed": 0,
     "reproducibility": {
-        "command_line": "python train_compile.py --iterations=5 --rollouts_path_train=expert-rollouts/drawing_train.pkl --rollouts_path_eval=expert-rollouts/drawing_eval.pkl --latent_dist concrete --latent_dim 4 --num_segments 10 --cont_action_dim 8 --prior_rate 50 --mode state+action --run_name parking-concrete-4d-state1 --state_dim 4 --beta_s 1",
+        "command_line": "python train_compile.py --iterations=2000 --rollouts_path_train=expert-rollouts/drawing_train.pkl --rollouts_path_eval=expert-rollouts/drawing_eval.pkl --latent_dist concrete --latent_dim 4 --num_segments 10 --cont_action_dim 8 --prior_rate 50 --mode state+action --run_name parking-concrete-4d-state1 --state_dim 4 --beta_s 1 --learning_rate 1e-4",
         "git_has_uncommitted_changes": true,
         "git_root": "/home/compile/CompILE-surgery",
-        "git_url": "https://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@github.com/skadaba1/CompILE-surgery/tree/b6004fda60f80fa351e6f1335bbb9a65d50bf3da",
-        "time": "Sun Dec 31 20:21:18 2023"
+        "git_url": "https://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@github.com/skadaba1/CompILE-surgery/tree/78c91f1746b3f4311d073576318bc6430793ffa5",
+        "time": "Mon Jan  1 16:37:19 2024"
     },
     "rollouts_path_eval": "expert-rollouts/drawing_eval.pkl",
     "rollouts_path_train": "expert-rollouts/drawing_train.pkl",

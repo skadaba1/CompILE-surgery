@@ -9,6 +9,7 @@ import numpy as np
 import random
 import torch
 from torch.utils.data import Dataset, DataLoader
+import matplotlib.pyplot as plt
 
 import utils
 import modules
@@ -33,6 +34,10 @@ print('Training model...')
 print("Device: " + str(device))
 best_valid_loss_same = 0
 curr_valid_loss = float('inf')
+
+valid_history = []
+train_history = []
+
 for step in range(args.iterations):
     train_loss = 0
     batch_num = 0
@@ -79,6 +84,9 @@ for step in range(args.iterations):
         eval_acc = total_acc / count
         eval_nll = total_nll / count
 
+        valid_history.append(eval_nll)
+        train_history.append(train_loss)
+
         text = "iteration: {iter:.2f} of {total:.2f} | training_loss: {tloss:.2f} | validation_loss: {vloss:.2f}"
         print(text.format(iter=step, total=float(args.iterations), tloss=train_loss, vloss=eval_nll))
 
@@ -88,10 +96,22 @@ for step in range(args.iterations):
         else:
             best_valid_loss_same += 1
     else:
+
+        train_history.append(train_loss)
+
         text = "iteration: {iter:.2f} of {total:.2f} | training_loss: {tloss:.2f}"
         print(text.format(iter=step, total=float(args.iterations), tloss=train_loss))
+
+
     if step % args.save_interval == 0:
         torch.save(model.state_dict(), os.path.join(args.save_dir, "model.pth"))
 
     if(best_valid_loss_same >  50):
         break
+
+## Plot training and validation loss
+plt.plot(train_history, label='nll_train')
+plt.plot(valid_history, label='nll_eval')
+plt.legend()
+plt.show()
+plt.savefig('./fig/training_history.png')
